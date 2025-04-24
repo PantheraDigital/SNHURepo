@@ -1,4 +1,7 @@
 # SNHURepo
 
-Branches contain projects that were due in courses I have completed at SNHU.
-This repo and the branches were created as a requirement of those classes.
+## How can I ensure that my code, program, or software is functional and secure?
+
+## How do I interpret user needs and incorporate them into a program?
+
+## How do I approach designing software?
