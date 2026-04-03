@@ -2,7 +2,9 @@
 
 Throughout this course I learned how to take a static website, containerize it with Docker, then port it to the cloud with AWS.
 
-![Website demo video](SNHU-AWS-Final-Project/AWS-Site-Demo.mp4)
+
+https://github.com/user-attachments/assets/98f1ff66-5934-443a-bc4a-88f2f4e0dfd9
+
 
 I started with the Angular QA Template which used the MEAN stack to set up a locally hosted website. \
 https://github.com/AngularTemplates/learn-angular-from-scratch-step-by-step \
