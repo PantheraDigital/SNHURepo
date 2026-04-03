@@ -1,16 +1,69 @@
 # Full Stack Development
 
-In this course I have learned about containerization through the use of Docker and how to move a website to the cloud, specifically with AWS. This has given me a better understanding of cloud based architecture and how different services are brought together to make web apps.
+Throughout this course I learned how to take a static website, containerize it with Docker, then port it to the cloud with AWS.
 
-Using the knowledge from this class I am more prepared to become a web developer.
+![Website demo video](SNHU-AWS-Final-Project/AWS-Site-Demo.mp4)
 
+I started with the Angular QA Template which used the MEAN stack to set up a locally hosted website. \
+https://github.com/AngularTemplates/learn-angular-from-scratch-step-by-step \
+https://github.com/AngularTemplates/learn-how-to-build-a-mean-stack-application
 
-Exploring our final project further, I don't see scaling becoming an issue as the use of AWS resources will automatically handle that. Cost prediction can be achieved by watching the cost of the website over time to find an average, then factor in any expected advertisements and large updates that may draw in more users. 
+From this starting point I separated out the components of the website to three main parts (frontend, backend, and database). Once separated I placed each in their own container using Docker Desktop but connected the backend and database containers using Docker Compose. 
 
-Between containers and serverless, containers seem to be the most predictable for costs assuming they are on local servers. Serverless is directly tied to use which can fluctuate but having physical servers may be more predictable as cost of bills and maintenance would keep expenses steady. 
+![Docker Desktop showing containers for frontend, backend, and databse, with the database and frontend linked together with Docker Compose.](SNHU-AWS-Final-Project/Docker-Containers.png)
 
-For expansion of the serverless website, one con would be potentially having to consider the structure of the DynamoDB if it were to become more heavily used for a wider array of data. Another would be unforeseen costs from the services due to mistakes in development or spikes in users from unexpected popularity. This would be a con as planning around keys could become a problem in order to maintain the key value structure. Pros however are that the foundation has be established and the use of AWS resources makes it easy to ad more to the site, like expanding the API or updating the S3 bucket with the website. Another pro is the security and infrastructure AWS provides, which inherently improves the strength of the website under high user traffic or possible attack.
+This keeps the components separated in their own environments, which increase the modularity and maintainability of the system, while still allowing the backend to freely communicate with the database.
 
-While planing for expansion, elasticity and pay-for-service do need to be considered for future growth. Elasticity allows the site to gain the resources it needs to run as the traffic increases and the site grows. The pay-for-service model will also grow as the site grows due to increased resource usage. Something to consider would be limiting growth to prevent debt. This could be through limiting the number if users at any time or by optimizing the site and preventing additions for a while to reduce complexity and service usage. 
+Once this worked I began porting the site to the cloud with AWS. 
+- S3 hosted the site
+- DynamoDB was the new database
+- Lambda held the implemented functions for the API
+- API Gateway connected the frontend to the backend
 
-AWS services used: S3 bucket, Lambda, DynamoDB, API Gateway
+![Diagram of AWS services](SNHU-AWS-Final-Project/Untitled Diagram.jpg)
+
+## S3
+Before uploading the site to S3 I used Angular to build the site for deployment. Once that was done I uploaded the frontend files. After this I made the site public by disabling the public access block and adding a bucket policy that allowed for read and get access. These two steps were necessary since S3 is defaultly private and has two layers of protection.
+
+![S3 bucket policy](SNHU-AWS-Final-Project/Bucket-Policy.png)
+
+## DynamoDB
+Originally the site used MongoDB as the database, but since the database had yet to be used I switched to DynamoDB since it is specialized for the AWS environment and the change would have no impact on the site. I created two tables, one for questions and one for answers, 
+
+![question db](SNHU-AWS-Final-Project/Database-Questions.png)
+![answer db](SNHU-AWS-Final-Project/Database-Answers.png)
+
+## Lambda
+Lambda holds all the functions for interaction with the database. Here I implemented functions for creating, reading, updating, and deleting elements within the two databases. I also tied each function to a role which increases security by only allowing users with that role to use those functions.
+
+![lambda functions list](SNHU-AWS-Final-Project/Lambda-Functions.png)
+
+In Lambda I also created test events for each function to ensure they worked.
+
+![lambda test](SNHU-AWS-Final-Project/Lambda-Function-Test.png)
+
+## API Gateway
+In order to tie the frontend to the database I used API Gateway to give the frontend an access point where it could make REST requests from to interact with the database.
+
+Since this is the public entry point for communication with the database I enabled the latest Security Policy LTS, which would restrict actions of clients interacting with the API.
+
+![API overview](SNHU-AWS-Final-Project/API-Overview.png)
+
+Each request was tied to a lambda function which would allow users to interact with the database.
+
+![GET integration](SNHU-AWS-Final-Project/GET-Integration.png)
+
+To support CORS I added the OPTIONS method to each resource with the necessary headers and response headers to allow CORS.
+
+![OPTIONS integration](SNHU-AWS-Final-Project/OPTIONS-Integration.png)
+![OPTIONS mappings](SNHU-AWS-Final-Project/OPTIONS-Header-Mappings.png)
+![OPTIONS response](SNHU-AWS-Final-Project/OPTIONS-Header-Response.png)
+
+# Conclusion
+At the end of this project I had a working cloud based website that allowed for user interaction with the database. This porting to the cloud made the website much more scalable, secure, and cheaper to maintain since now costs would be tied to usage rather than maintenance of servers.
+
+After deploying the website I created a presentation going over the different aspects of this project.
+
+[powerpoint link](SNHU-AWS-Final-Project/Project-Two-Conference-Presentation_Cloud-Development.pptx)
+
+The biggest challenge of this project was getting the initial local website to work. There were many Node packages at play that would required troubleshooting since the initial project was based on old versions and different environments than my PC. This has shown me how containerization could help with development when sharing projects with different developers. All of it was also much easier to manage once it was setup in the cloud.
