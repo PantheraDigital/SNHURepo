@@ -20,7 +20,7 @@ Once this worked I began porting the site to the cloud with AWS.
 - Lambda held the implemented functions for the API
 - API Gateway connected the frontend to the backend
 
-![Diagram of AWS services](SNHU-AWS-Final-Project/Untitled Diagram.jpg)
+![Diagram of AWS services](SNHU-AWS-Final-Project/Untitled-Diagram.jpg)
 
 ## S3
 Before uploading the site to S3 I used Angular to build the site for deployment. Once that was done I uploaded the frontend files. After this I made the site public by disabling the public access block and adding a bucket policy that allowed for read and get access. These two steps were necessary since S3 is defaultly private and has two layers of protection.
