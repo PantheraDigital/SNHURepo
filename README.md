@@ -6,15 +6,32 @@ Throughout this course I learned how to take a static website, containerize it w
 https://github.com/user-attachments/assets/98f1ff66-5934-443a-bc4a-88f2f4e0dfd9
 
 
-I started with the Angular QA Template which used the MEAN stack to set up a locally hosted website. \
+## Containerization 
+I started with the Angular QA Template, which used the MEAN stack to set up a locally hosted website. \
 https://github.com/AngularTemplates/learn-angular-from-scratch-step-by-step \
 https://github.com/AngularTemplates/learn-how-to-build-a-mean-stack-application
 
-From this starting point I separated out the components of the website to three main parts (frontend, backend, and database). Once separated I placed each in their own container using Docker Desktop but connected the backend and database containers using Docker Compose. 
+From this starting point I separated out the components of the website to three main parts (frontend, backend, and database). Once separated I placed each in their own container using Docker Desktop and connected the backend and database containers using Docker Compose. 
+
+*Building frontend and backend for Docker*
+![Console output after using docker build in backend of project.](SNHU-AWS-Final-Project/docker-build-backend.png)
+![Console output after using docker build in frontend of project.](SNHU-AWS-Final-Project/docker-build-frontend.png)
+
+*Containerized MongoDB*
+![Docker Desktop showing data from a MongoDB database running in a container.](SNHU-AWS-Final-Project/docker-display-database.png)
+
+*Docker Network*
+![Docker network list showing a created network for this website.](SNHU-AWS-Final-Project/docker-network.png)
+
+*Docker Compose*
+![Console output after running docker compose in the project with the docker compose file.](SNHU-AWS-Final-Project/docker-compose.png)
 
 ![Docker Desktop showing containers for frontend, backend, and databse, with the database and frontend linked together with Docker Compose.](SNHU-AWS-Final-Project/Docker-Containers.png)
 
-This keeps the components separated in their own environments, which increase the modularity and maintainability of the system, while still allowing the backend to freely communicate with the database.
+*Testing API*
+![Output from LoopBack API Explorer confirming website api was functional.](SNHU-AWS-Final-Project/loopback-api-test.png)
+
+This keeps the components separated in their own environments, which increase the modularity and maintainability of the system, while still allowing the backend to freely communicate with the database due to the network.
 
 Once this worked I began porting the site to the cloud with AWS. 
 - S3 hosted the site
